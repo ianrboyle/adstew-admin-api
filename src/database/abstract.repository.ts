@@ -1,6 +1,7 @@
 import {
   EntityManager,
   EntityTarget,
+  FindManyOptions,
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
@@ -18,6 +19,14 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
   async create(entity: T): Promise<T> {
     return this.entityManager.save(entity);
   }
+
+  async createWithoutSave(entity: T): Promise<T> {
+    return this.entityManager.create(
+      entity.constructor as EntityTarget<T>,
+      entity,
+    );
+  }
+
   async createMultiple<T>(
     entityList: T[],
     entityClass: EntityTarget<T>,
@@ -29,15 +38,30 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     return this.entityManager.save(entities);
   }
 
-  async findOne(where: FindOptionsWhere<T>): Promise<T> {
-    const entity = await this.entityRepository.findOne({ where });
-    if (!entity) {
-      this.logger.warn('Entity not found with where: ', where);
-      throw new NotFoundException(`Entity not found,`);
+  // async findOne(where: FindOptionsWhere<T>): Promise<T> {
+  //   const entity = await this.entityRepository.findOne({ where });
+  //   if (!entity) {
+  //     this.logger.warn('Entity not found with where: ', where);
+  //     throw new NotFoundException(`Entity not found,`);
+  //   }
+  //   return entity;
+  // }
+  async findOne(where: FindOptionsWhere<T>, relations?: string[]): Promise<T> {
+    const options: FindManyOptions<T> = { where };
+
+    if (relations && relations.length > 0) {
+      options.relations = relations;
     }
+
+    const entity = await this.entityRepository.findOne(options);
+
+    if (!entity) {
+      this.logger.warn('Entity not found with where:', where);
+      throw new NotFoundException('Entity not found');
+    }
+
     return entity;
   }
-
   async findOneAndUpdate(
     where: FindOptionsWhere<T>,
     partialEntity: QueryDeepPartialEntity<T>,
@@ -64,6 +88,6 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
   }
 
   async findAll(): Promise<T[]> {
-    return this.entityRepository.find();
+    return this.entityRepository.find({});
   }
 }
