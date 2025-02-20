@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FeaturedServiceRepository } from './featured-service.repository';
 import { CreateFeaturedServiceDto } from './dtos/featured-service-page.dto';
 import { FeaturedServicePage } from './entities/featured-service-page.entity';
-import { FeaturedServiceSection } from './entities/featured-service-section.entity';
+import { FeaturedServiceSectionEntity } from './entities/featured-service-section.entity';
 
 @Injectable()
 export class FeaturedServiceService {
@@ -23,7 +23,7 @@ export class FeaturedServiceService {
 
     const pageSections = createFeaturedServiceDto.sections?.map(
       (section) =>
-        new FeaturedServiceSection({
+        new FeaturedServiceSectionEntity({
           title: section.title,
           body: section.body,
           isList: section.isList,

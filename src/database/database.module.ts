@@ -18,8 +18,6 @@ import { HttpExceptionFilter } from '../logger/HttpException.filter';
       inject: [ConfigService],
       useFactory: (config: ConfigService): TypeOrmModuleOptions => {
         const isTestEnvironment = process.env.NODE_ENV === 'test';
-        console.log(config.get<string>('DB_DATABASE'));
-        console.log(config.getOrThrow<string>('DB_HOST'));
         const dbConnectionOptions = {
           type: 'postgres',
           database: config.get<string>('DB_DATABASE'),

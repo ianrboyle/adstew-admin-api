@@ -8,16 +8,14 @@ import { FeaturedServiceController } from './featured-service.controller';
 import { FeaturedServiceService } from './featured-service.service';
 
 import { FeaturedServicePage } from './entities/featured-service-page.entity';
-import { FeaturedServiceSectionListItem } from './entities/featured-service-section-list-item.entity';
-import { FeaturedServiceSection } from './entities/featured-service-section.entity';
+import { FeaturedServiceSectionEntity } from './entities/featured-service-section.entity';
 import { FeaturedServiceRepository } from './featured-service.repository';
 @Module({
   imports: [
     DatabaseModule,
     DatabaseModule.forFeature([
       FeaturedServicePage,
-      FeaturedServiceSection,
-      FeaturedServiceSectionListItem,
+      FeaturedServiceSectionEntity,
     ]),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -31,6 +29,7 @@ import { FeaturedServiceRepository } from './featured-service.repository';
     }),
     LoggerModule,
   ],
+
   controllers: [FeaturedServiceController],
   providers: [FeaturedServiceService, FeaturedServiceRepository],
   exports: [FeaturedServiceService, FeaturedServiceRepository],

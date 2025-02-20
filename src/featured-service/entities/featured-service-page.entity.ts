@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
-import { FeaturedServiceSection } from './featured-service-section.entity';
+import { FeaturedServiceSectionEntity as FeaturedServiceSection } from './featured-service-section.entity';
 import { AbstractEntity } from '../../database';
 import { PageType } from '../../enums/page-type.enum';
 

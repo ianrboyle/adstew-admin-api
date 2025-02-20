@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { FeaturedServiceService } from './featured-service.service';
 import { CreateFeaturedServiceDto } from './dtos/featured-service-page.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('featured-service')
 export class FeaturedServiceController {
@@ -18,6 +19,7 @@ export class FeaturedServiceController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async createPage(@Body() createPageDto: CreateFeaturedServiceDto) {
     return await this.featuredServiceService.createPage(createPageDto);
   }

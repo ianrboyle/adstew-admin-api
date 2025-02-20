@@ -4,7 +4,7 @@ import { FeaturedServicePage } from './featured-service-page.entity';
 import { AbstractEntity } from '../../database';
 
 @Entity()
-export class FeaturedServiceSection extends AbstractEntity<FeaturedServiceSection> {
+export class FeaturedServiceSectionEntity extends AbstractEntity<FeaturedServiceSectionEntity> {
   @ManyToOne(() => FeaturedServicePage, (page) => page.sections, {
     onDelete: 'CASCADE',
   })
